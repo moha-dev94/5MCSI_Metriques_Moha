@@ -12,7 +12,7 @@
 
       function drawChart() {
         // Récupération des données depuis notre nouvelle API /commits/
-        fetch('/commits/')
+        fetch('/data-commits/')
           .then(response => response.json())
           .then(data => {
             const dataTable = new google.visualization.DataTable();
