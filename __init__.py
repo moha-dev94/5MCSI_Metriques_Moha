@@ -15,7 +15,7 @@ if __name__ == "__main__":
   app.run(debug=True)
 @app.route("/contact/")
 def MaPremiereAPI():
-    return "contact.html"
+    return render_template("contact.html")
 @app.route('/tawarano/')
 def meteo():
     response = urlopen('https://samples.openweathermap.org/data/2.5/forecast?lat=0&lon=0&appid=xxx')
