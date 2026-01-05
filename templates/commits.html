@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Analyse des Commits</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 100%; height: 500px;"></div>
+    <script>
+      google.charts.load('current', { packages: ['corechart'] });
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        // Récupération des données depuis notre nouvelle API /commits/
+        fetch('/commits/')
+          .then(response => response.json())
+          .then(data => {
+            const dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Minute');
+            dataTable.addColumn('number', 'Nombre de Commits');
+
+            // On compte l'occurrence de chaque minute
+            const counts = {};
+            data.results.forEach(entry => {
+              counts[entry.minute] = (counts[entry.minute] || 0) + 1;
+            });
+
+            // On ajoute les lignes au tableau du graphique
+            Object.keys(counts).sort((a, b) => a - b).forEach(minute => {
+              dataTable.addRow([minute + " min", counts[minute]]);
+            });
+
+            const options = {
+              title: 'Nombre de commits effectués par minute',
+              hAxis: { title: 'Minutes' },
+              vAxis: { title: 'Commits' },
+              legend: { position: 'none' },
+              colors: ['#76A7FA']
+            };
+
+            const chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+            chart.draw(dataTable, options);
+          });
+      }
+    </script>
+  </body>
+</html>
