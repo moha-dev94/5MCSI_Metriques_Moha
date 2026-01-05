@@ -4,7 +4,7 @@
     <title>Graphique</title>
   </head>  
   <body>
-    <h2>Mon Graphique</h2>
+    <h2>Mon Graphique 2</h2>
   </body>
   <head>
     <meta charset="UTF-8" />
@@ -32,7 +32,7 @@
       curveType: 'function',
       legend: { position: 'bottom' }
     };
-    var chart = new google.visualization.Columnchart(document.getElementById('chart_div'));
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     chart.draw(dataTable, options);
   }
   // Récupération de données depuis notre API /tawarano/
