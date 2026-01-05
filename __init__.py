@@ -11,6 +11,22 @@ app = Flask(__name__)
 def hello_world():
     return render_template('hello.html')
   
+@app.route('/commits/')
+def commits():
+    response = urlopen('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits')
+    raw_content = response.read()
+    json_content = json.loads(raw_content.decode('utf-8'))
+    results = []
+    for commit_data in json_content:
+        date_string = commit_data['commit']['author']['date']
+        date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
+        minute = date_object.minute
+        results.append({'minute': minute})
+    return jsonify(results=results)
+
+@app.route('/graphique-commits/')
+def graphique_commits():
+    return render_template("commits.html")
 if __name__ == "__main__":
   app.run(debug=True)
 @app.route("/contact/")
